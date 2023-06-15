@@ -104,15 +104,13 @@ public class ProductoController {
     
     	statement.execute();
 		
-    
-		ResultSet resultSet = statement.getGeneratedKeys();
+		final ResultSet resultSet = statement.getGeneratedKeys();
 		
-		while(resultSet.next()) {
-			System.out.println(
-					String.format(
-					"Fue insertado el producto de ID %d",
-					resultSet.getInt(1)));
+		try(resultSet){
+			while(resultSet.next()) {
+				producto.setId(resultSet.getInt(1));
+				System.out.println(String.format("Fue insertado el producto %s",producto));
+			}
 		}
 	}
-
 }
