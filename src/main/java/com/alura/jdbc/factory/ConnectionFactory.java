@@ -21,8 +21,12 @@ public class ConnectionFactory {
 		this.datasource = pooledDataSource;
 	}
 	
-	public Connection recuperaConexion() throws SQLException {
-		return this.datasource.getConnection();
+	public Connection recuperaConexion() {
+		try {
+			return this.datasource.getConnection();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 // This is a direct form to create a connection, witout a pool of connections	
