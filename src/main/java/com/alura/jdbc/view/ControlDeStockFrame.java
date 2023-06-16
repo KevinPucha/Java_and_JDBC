@@ -259,13 +259,6 @@ public class ControlDeStockFrame extends JFrame {
         var producto = new Producto(textoNombre.getText(),
         		textoDescripcion.getText(),
         		cantidadInt);
-
-// TODO
-// Here we save all the given information from the JTextfield, but now we create a class called Producto 
-//        var producto = new HashMap <String, String>();
-//        producto.put("NOMBRE", textoNombre.getText());
-//        producto.put("DESCRIPCION", textoDescripcion.getText());
-//        producto.put("CANTIDAD", String.valueOf(cantidadInt));
         
         var categoria = comboCategoria.getSelectedItem();
         
