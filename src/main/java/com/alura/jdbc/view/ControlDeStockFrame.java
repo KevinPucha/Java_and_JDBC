@@ -190,32 +190,26 @@ public class ControlDeStockFrame extends JFrame {
 			String nombre = (String) modelo.getValueAt(tabla.getSelectedRow(), 1);
 			String descripcion = (String) modelo.getValueAt(tabla.getSelectedRow(), 2);
 			Integer cantidad = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 3).toString());
-
+			
+			Producto producto = new Producto(id,nombre,descripcion,cantidad);
 			int filasModificadas;
-
-			try {
-				filasModificadas = this.productoController.modificar(nombre, descripcion, cantidad, id);
-			} catch (SQLException e) {
-				throw new RuntimeException(e);
-			}
+			filasModificadas = this.productoController.modificar(producto);
 
 			JOptionPane.showMessageDialog(this, String.format("%d item modificado con éxito!", filasModificadas));
 		}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
 	}
+
 	private void eliminar() {
 		if (tieneFilaElegida()) {
 			JOptionPane.showMessageDialog(this, "Por favor, elije un item");
 			return;
 		}
-
 		Optional.ofNullable(modelo.getValueAt(tabla.getSelectedRow(), tabla.getSelectedColumn()))
 		.ifPresentOrElse(fila -> {
 			Integer id = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
 
 			int cantidadEliminada;
-
-				cantidadEliminada = this.productoController.eliminar(id);
-
+			cantidadEliminada = this.productoController.eliminar(id);
 			modelo.removeRow(tabla.getSelectedRow());
 
 			JOptionPane.showMessageDialog(this, cantidadEliminada + " item eliminado con éxito!");
@@ -237,9 +231,7 @@ public class ControlDeStockFrame extends JFrame {
 			JOptionPane.showMessageDialog(this, "Los campos Nombre y Descripción son requeridos.");
 			return;
 		}
-
 		Integer cantidadInt;
-
 		try {
 			cantidadInt = Integer.parseInt(textoCantidad.getText());
 		} catch (NumberFormatException e) {
@@ -271,5 +263,4 @@ public class ControlDeStockFrame extends JFrame {
 		this.textoCantidad.setText("");
 		this.comboCategoria.setSelectedIndex(0);
 	}
-
 }

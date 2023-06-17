@@ -24,11 +24,9 @@ public class ProductoDAO {
 				statement.setString(1, producto.getNombre());
 				statement.setString(2, producto.getDescripcion());
 				statement.setInt(3, producto.getCantidad());
-
 				statement.execute();
 
-				final ResultSet resultSet = statement.getGeneratedKeys();
-
+				ResultSet resultSet = statement.getGeneratedKeys();
 				try(resultSet){
 					while(resultSet.next()) {
 						producto.setId(resultSet.getInt(1));
@@ -48,7 +46,6 @@ public class ProductoDAO {
 			ResultSet resultSet = statement.getResultSet();
 
 			List<Producto> resultado = new ArrayList<>();
-
 			while(resultSet.next()) {
 				Producto fila = new Producto(
 						resultSet.getInt("ID"),
@@ -68,11 +65,33 @@ public class ProductoDAO {
 			PreparedStatement statement = con.prepareStatement("DELETE FROM PRODUCTO WHERE ID = ?");
 			statement.setInt(1,id);
 			statement.execute();
+
 			int updateCount = statement.getUpdateCount();
 			return updateCount;
 		} catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
-		
+
+	}
+
+	public int modificar(Producto producto) {
+		PreparedStatement statement;
+		try {
+			statement = con.prepareStatement("UPDATE PRODUCTO SET "
+					+ " NOMBRE = ?" 
+					+ ", DESCRIPCION = ?"
+					+ ", CANTIDAD = ?"
+					+ " WHERE ID = ?");
+			statement.setString(1,producto.getNombre());
+			statement.setString(2,producto.getDescripcion());
+			statement.setInt(3,producto.getCantidad());
+			statement.setInt(4,producto.getId());
+			statement.execute();
+
+			int updateCount = statement.getUpdateCount();
+			return updateCount;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
