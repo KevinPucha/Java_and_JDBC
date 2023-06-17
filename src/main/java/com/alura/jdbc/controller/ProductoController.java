@@ -60,30 +60,35 @@ public class ProductoController {
 		return updateCount;
 	}
 	
-	public List<Map<String, String>> listar() throws SQLException {
-		
+	public List<Map<String, String>> listar() {
 		Connection con = new ConnectionFactory().recuperaConexion();
-
-		PreparedStatement statement = con.prepareStatement("SELECT ID, NOMBRE, DESCRIPCION, CANTIDAD FROM PRODUCTO");
-		statement.execute();
-		
-		ResultSet resultSet = statement.getResultSet();
-
-		List<Map<String,String>> resultado = new ArrayList<>();
-					
-		while(resultSet.next()) {
-			Map<String, String> fila = new HashMap<>();
-			fila.put("ID",String.valueOf(resultSet.getInt("ID")));
-			fila.put("NOMBRE", resultSet.getString("NOMBRE"));
-			fila.put("DESCRIPCION", resultSet.getString("DESCRIPCION"));
-			fila.put("CANTIDAD",String.valueOf(resultSet.getInt("CANTIDAD")));
+		try(con){
 			
-			resultado.add(fila);
+			PreparedStatement statement = con.prepareStatement("SELECT ID, NOMBRE, DESCRIPCION, CANTIDAD FROM PRODUCTO");
+			statement.execute();
+			
+			ResultSet resultSet = statement.getResultSet();
+
+			List<Map<String,String>> resultado = new ArrayList<>();
+						
+			while(resultSet.next()) {
+				Map<String, String> fila = new HashMap<>();
+				fila.put("ID",String.valueOf(resultSet.getInt("ID")));
+				fila.put("NOMBRE", resultSet.getString("NOMBRE"));
+				fila.put("DESCRIPCION", resultSet.getString("DESCRIPCION"));
+				fila.put("CANTIDAD",String.valueOf(resultSet.getInt("CANTIDAD")));
+				
+				resultado.add(fila);
+			}
+			statement.close();
+			con.close();
+			
+			return resultado;
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
 		}
-		statement.close();
-		con.close();
 		
-		return resultado;
+		
 	}
 	
     public void guardar (Producto producto){

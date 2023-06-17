@@ -227,17 +227,13 @@ public class ControlDeStockFrame extends JFrame {
     }
 
     private void cargarTabla() {
-    	try {
-    		var productos = this.productoController.listar();
-    		try { 
+  //  	try {
+    		var productos = productoController.listar(); 
     			 productos.forEach(producto -> modelo.addRow(new Object[] { producto.get("ID"), producto.get("NOMBRE"),
         		 producto.get("DESCRIPCION"), producto.get("CANTIDAD") }));
-    		} catch (Exception e) {
-    			throw e;
-    		}
-    	} catch (SQLException e) {
-    		throw new RuntimeException(e);
-    	}
+//    	}catch (SQLException e) {
+//    		throw new RuntimeException(e);
+//    	}
 
     }
 
@@ -262,7 +258,7 @@ public class ControlDeStockFrame extends JFrame {
         
         var categoria = comboCategoria.getSelectedItem();
         
-		this.productoController.guardar(producto);
+		productoController.guardar(producto);
 
         JOptionPane.showMessageDialog(this, "Registrado con éxito!");
 
