@@ -22,259 +22,254 @@ import com.alura.jdbc.modelo.Producto;
 
 public class ControlDeStockFrame extends JFrame {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private JLabel labelNombre, labelDescripcion, labelCantidad, labelCategoria;
-    private JTextField textoNombre, textoDescripcion, textoCantidad;
-    private JComboBox<Object> comboCategoria;
-    private JButton botonGuardar, botonModificar, botonLimpiar, botonEliminar, botonReporte;
-    private JTable tabla;
-    private DefaultTableModel modelo;
-    private ProductoController productoController;
-    private CategoriaController categoriaController;
-    
-    // constructor por defecto
-    public ControlDeStockFrame() {
-    	// llamo al constructor por defecto de la clase padre (JFrame)
-        super("Productos"); 
+	private JLabel labelNombre, labelDescripcion, labelCantidad, labelCategoria;
+	private JTextField textoNombre, textoDescripcion, textoCantidad;
+	private JComboBox<Object> comboCategoria;
+	private JButton botonGuardar, botonModificar, botonLimpiar, botonEliminar, botonReporte;
+	private JTable tabla;
+	private DefaultTableModel modelo;
+	private ProductoController productoController;
+	private CategoriaController categoriaController;
 
-        this.categoriaController = new CategoriaController();
-        this.productoController = new ProductoController();
+	// constructor por defecto
+	public ControlDeStockFrame() {
+		// llamo al constructor por defecto de la clase padre (JFrame)
+		super("Productos"); 
 
-        Container container = getContentPane();
-        setLayout(null);
+		this.categoriaController = new CategoriaController();
+		this.productoController = new ProductoController();
 
-        configurarCamposDelFormulario(container);
+		Container container = getContentPane();
+		setLayout(null);
 
-        configurarTablaDeContenido(container);
+		configurarCamposDelFormulario(container);
 
-        configurarAccionesDelFormulario();
-    }
+		configurarTablaDeContenido(container);
 
-    private void configurarTablaDeContenido(Container container) {
-        tabla = new JTable();
+		configurarAccionesDelFormulario();
+	}
 
-        modelo = (DefaultTableModel) tabla.getModel();
-        modelo.addColumn("Identificador del Producto");
-        modelo.addColumn("Nombre del Producto");
-        modelo.addColumn("Descripción del Producto");
-        modelo.addColumn("Cantidad");
+	private void configurarTablaDeContenido(Container container) {
+		tabla = new JTable();
 
-        cargarTabla();
+		modelo = (DefaultTableModel) tabla.getModel();
+		modelo.addColumn("Identificador del Producto");
+		modelo.addColumn("Nombre del Producto");
+		modelo.addColumn("Descripción del Producto");
+		modelo.addColumn("Cantidad");
 
-        tabla.setBounds(10, 205, 760, 280);
+		cargarTabla();
 
-        botonEliminar = new JButton("Eliminar");
-        botonModificar = new JButton("Modificar");
-        botonReporte = new JButton("Ver Reporte");
-        botonEliminar.setBounds(10, 500, 80, 20);
-        botonModificar.setBounds(100, 500, 80, 20);
-        botonReporte.setBounds(190, 500, 80, 20);
+		tabla.setBounds(10, 205, 760, 280);
 
-        container.add(tabla);
-        container.add(botonEliminar);
-        container.add(botonModificar);
-        container.add(botonReporte);
+		botonEliminar = new JButton("Eliminar");
+		botonModificar = new JButton("Modificar");
+		botonReporte = new JButton("Ver Reporte");
+		botonEliminar.setBounds(10, 500, 80, 20);
+		botonModificar.setBounds(100, 500, 80, 20);
+		botonReporte.setBounds(190, 500, 80, 20);
 
-        setSize(800, 600);
-        setVisible(true);
-        setLocationRelativeTo(null);
-    }
+		container.add(tabla);
+		container.add(botonEliminar);
+		container.add(botonModificar);
+		container.add(botonReporte);
 
-    private void configurarCamposDelFormulario(Container container) {
-        labelNombre = new JLabel("Nombre del Producto");
-        labelDescripcion = new JLabel("Descripción del Producto");
-        labelCantidad = new JLabel("Cantidad");
-        labelCategoria = new JLabel("Categoría del Producto");
+		setSize(800, 600);
+		setVisible(true);
+		setLocationRelativeTo(null);
+	}
 
-        labelNombre.setBounds(10, 10, 240, 15);
-        labelDescripcion.setBounds(10, 50, 240, 15);
-        labelCantidad.setBounds(10, 90, 240, 15);
-        labelCategoria.setBounds(10, 130, 240, 15);
+	private void configurarCamposDelFormulario(Container container) {
+		labelNombre = new JLabel("Nombre del Producto");
+		labelDescripcion = new JLabel("Descripción del Producto");
+		labelCantidad = new JLabel("Cantidad");
+		labelCategoria = new JLabel("Categoría del Producto");
 
-        labelNombre.setForeground(Color.BLACK);
-        labelDescripcion.setForeground(Color.BLACK);
-        labelCategoria.setForeground(Color.BLACK);
+		labelNombre.setBounds(10, 10, 240, 15);
+		labelDescripcion.setBounds(10, 50, 240, 15);
+		labelCantidad.setBounds(10, 90, 240, 15);
+		labelCategoria.setBounds(10, 130, 240, 15);
 
-        textoNombre = new JTextField();
-        textoDescripcion = new JTextField();
-        textoCantidad = new JTextField();
-        comboCategoria = new JComboBox<>();
-        comboCategoria.addItem("Elige una Categoría");
+		labelNombre.setForeground(Color.BLACK);
+		labelDescripcion.setForeground(Color.BLACK);
+		labelCategoria.setForeground(Color.BLACK);
 
-        // TODO
-        var categorias = this.categoriaController.listar();
-        // categorias.forEach(categoria -> comboCategoria.addItem(categoria));
+		textoNombre = new JTextField();
+		textoDescripcion = new JTextField();
+		textoCantidad = new JTextField();
+		comboCategoria = new JComboBox<>();
+		comboCategoria.addItem("Elige una Categoría");
 
-        textoNombre.setBounds(10, 25, 265, 20);
-        textoDescripcion.setBounds(10, 65, 265, 20);
-        textoCantidad.setBounds(10, 105, 265, 20);
-        comboCategoria.setBounds(10, 145, 265, 20);
+		// TODO
+		var categorias = this.categoriaController.listar();
+		// categorias.forEach(categoria -> comboCategoria.addItem(categoria));
 
-        botonGuardar = new JButton("Guardar");
-        botonLimpiar = new JButton("Limpiar");
-        botonGuardar.setBounds(10, 175, 80, 20);
-        botonLimpiar.setBounds(100, 175, 80, 20);
+		textoNombre.setBounds(10, 25, 265, 20);
+		textoDescripcion.setBounds(10, 65, 265, 20);
+		textoCantidad.setBounds(10, 105, 265, 20);
+		comboCategoria.setBounds(10, 145, 265, 20);
 
-        container.add(labelNombre);
-        container.add(labelDescripcion);
-        container.add(labelCantidad);
-        container.add(labelCategoria);
-        container.add(textoNombre);
-        container.add(textoDescripcion);
-        container.add(textoCantidad);
-        container.add(comboCategoria);
-        container.add(botonGuardar);
-        container.add(botonLimpiar);
-    }
+		botonGuardar = new JButton("Guardar");
+		botonLimpiar = new JButton("Limpiar");
+		botonGuardar.setBounds(10, 175, 80, 20);
+		botonLimpiar.setBounds(100, 175, 80, 20);
 
-    private void configurarAccionesDelFormulario() {
-        botonGuardar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                guardar();
-                limpiarTabla();
-                cargarTabla();
-            }
-        });
+		container.add(labelNombre);
+		container.add(labelDescripcion);
+		container.add(labelCantidad);
+		container.add(labelCategoria);
+		container.add(textoNombre);
+		container.add(textoDescripcion);
+		container.add(textoCantidad);
+		container.add(comboCategoria);
+		container.add(botonGuardar);
+		container.add(botonLimpiar);
+	}
 
-        botonLimpiar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                limpiarFormulario();
-            }
-        });
+	private void configurarAccionesDelFormulario() {
+		botonGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardar();
+				limpiarTabla();
+				cargarTabla();
+			}
+		});
 
-        botonEliminar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                eliminar();
-                limpiarTabla();
-                cargarTabla();
-            }
-        });
+		botonLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarFormulario();
+			}
+		});
 
-        botonModificar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                modificar();
-                limpiarTabla();
-                cargarTabla();
-            }
-        });
+		botonEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eliminar();
+				limpiarTabla();
+				cargarTabla();
+			}
+		});
 
-        botonReporte.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                abrirReporte();
-            }
-        });
-    }
+		botonModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificar();
+				limpiarTabla();
+				cargarTabla();
+			}
+		});
 
-    private void abrirReporte() {
-        new ReporteFrame(this);
-    }
+		botonReporte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				abrirReporte();
+			}
+		});
+	}
 
-    private void limpiarTabla() {
-        modelo.getDataVector().clear();
-    }
+	private void abrirReporte() {
+		new ReporteFrame(this);
+	}
 
-    private boolean tieneFilaElegida() {
-        return tabla.getSelectedRowCount() == 0 || tabla.getSelectedColumnCount() == 0;
-    }
+	private void limpiarTabla() {
+		modelo.getDataVector().clear();
+	}
 
-    private void modificar() {
-        if (tieneFilaElegida()) {
-            JOptionPane.showMessageDialog(this, "Por favor, elije un item");
-            return;
-        }
+	private boolean tieneFilaElegida() {
+		return tabla.getSelectedRowCount() == 0 || tabla.getSelectedColumnCount() == 0;
+	}
 
-        Optional.ofNullable(modelo.getValueAt(tabla.getSelectedRow(), tabla.getSelectedColumn()))
-                .ifPresentOrElse(fila -> {
-                    Integer id = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
-                    String nombre = (String) modelo.getValueAt(tabla.getSelectedRow(), 1);
-                    String descripcion = (String) modelo.getValueAt(tabla.getSelectedRow(), 2);
-                    Integer cantidad = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 3).toString());
+	private void modificar() {
+		if (tieneFilaElegida()) {
+			JOptionPane.showMessageDialog(this, "Por favor, elije un item");
+			return;
+		}
 
-                    int filasModificadas;
+		Optional.ofNullable(modelo.getValueAt(tabla.getSelectedRow(), tabla.getSelectedColumn()))
+		.ifPresentOrElse(fila -> {
+			Integer id = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
+			String nombre = (String) modelo.getValueAt(tabla.getSelectedRow(), 1);
+			String descripcion = (String) modelo.getValueAt(tabla.getSelectedRow(), 2);
+			Integer cantidad = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 3).toString());
 
-                    try {
-                        filasModificadas = this.productoController.modificar(nombre, descripcion, cantidad, id);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+			int filasModificadas;
 
-                    JOptionPane.showMessageDialog(this, String.format("%d item modificado con éxito!", filasModificadas));
-                }, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
-    }
-    private void eliminar() {
-        if (tieneFilaElegida()) {
-            JOptionPane.showMessageDialog(this, "Por favor, elije un item");
-            return;
-        }
+			try {
+				filasModificadas = this.productoController.modificar(nombre, descripcion, cantidad, id);
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
 
-        Optional.ofNullable(modelo.getValueAt(tabla.getSelectedRow(), tabla.getSelectedColumn()))
-                .ifPresentOrElse(fila -> {
-                    Integer id = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
-                    
-                    int cantidadEliminada;
-                    
-                    try {
-						cantidadEliminada = this.productoController.eliminar(id);
-					} catch (SQLException e) {
-						throw new RuntimeException(e);
-					}
+			JOptionPane.showMessageDialog(this, String.format("%d item modificado con éxito!", filasModificadas));
+		}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+	}
+	private void eliminar() {
+		if (tieneFilaElegida()) {
+			JOptionPane.showMessageDialog(this, "Por favor, elije un item");
+			return;
+		}
 
-                    modelo.removeRow(tabla.getSelectedRow());
+		Optional.ofNullable(modelo.getValueAt(tabla.getSelectedRow(), tabla.getSelectedColumn()))
+		.ifPresentOrElse(fila -> {
+			Integer id = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
 
-                    JOptionPane.showMessageDialog(this, cantidadEliminada + " item eliminado con éxito!");
-                }, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
-    }
+			int cantidadEliminada;
 
-    private void cargarTabla() {
-  //  	try {
-    		var productos = productoController.listar(); 
-    			 productos.forEach(producto -> modelo.addRow(new Object[] { producto.get("ID"), producto.get("NOMBRE"),
-        		 producto.get("DESCRIPCION"), producto.get("CANTIDAD") }));
-//    	}catch (SQLException e) {
-//    		throw new RuntimeException(e);
-//    	}
+				cantidadEliminada = this.productoController.eliminar(id);
 
-    }
+			modelo.removeRow(tabla.getSelectedRow());
 
-    private void guardar() {
-        if (textoNombre.getText().isBlank() || textoDescripcion.getText().isBlank()) {
-            JOptionPane.showMessageDialog(this, "Los campos Nombre y Descripción son requeridos.");
-            return;
-        }
+			JOptionPane.showMessageDialog(this, cantidadEliminada + " item eliminado con éxito!");
+		}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+	}
 
-        Integer cantidadInt;
+	private void cargarTabla() {
+		var productos = productoController.listar(); 
+		productos.forEach(producto -> modelo.addRow(
+				new Object[] {
+						producto.getId(),
+						producto.getNombre(),
+						producto.getDescripcion(),
+						producto.getCantidad()}));
+	}
 
-        try {
-            cantidadInt = Integer.parseInt(textoCantidad.getText());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, String
-                    .format("El campo cantidad debe ser numérico dentro del rango %d y %d.", 0, Integer.MAX_VALUE));
-            return;
-        }
-        var producto = new Producto(textoNombre.getText(),
-        		textoDescripcion.getText(),
-        		cantidadInt);
-        
-        var categoria = comboCategoria.getSelectedItem();
-        
+	private void guardar() {
+		if (textoNombre.getText().isBlank() || textoDescripcion.getText().isBlank()) {
+			JOptionPane.showMessageDialog(this, "Los campos Nombre y Descripción son requeridos.");
+			return;
+		}
+
+		Integer cantidadInt;
+
+		try {
+			cantidadInt = Integer.parseInt(textoCantidad.getText());
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(this, String
+					.format("El campo cantidad debe ser numérico dentro del rango %d y %d.", 0, Integer.MAX_VALUE));
+			return;
+		}
+		var producto = new Producto(textoNombre.getText(),
+				textoDescripcion.getText(),
+				cantidadInt);
+
+		var categoria = comboCategoria.getSelectedItem();
+
 		productoController.guardar(producto);
 
-        JOptionPane.showMessageDialog(this, "Registrado con éxito!");
+		JOptionPane.showMessageDialog(this, "Registrado con éxito!");
 
-        this.limpiarFormulario();
-    }
+		this.limpiarFormulario();
+	}
 
-    private Object Producto(String text, String text2, Integer cantidadInt) {
+	private Object Producto(String text, String text2, Integer cantidadInt) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	private void limpiarFormulario() {
-        this.textoNombre.setText("");
-        this.textoDescripcion.setText("");
-        this.textoCantidad.setText("");
-        this.comboCategoria.setSelectedIndex(0);
-    }
+		this.textoNombre.setText("");
+		this.textoDescripcion.setText("");
+		this.textoCantidad.setText("");
+		this.comboCategoria.setSelectedIndex(0);
+	}
 
 }
