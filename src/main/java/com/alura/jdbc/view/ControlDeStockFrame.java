@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.Optional;
 
 import javax.swing.JButton;
@@ -18,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.alura.jdbc.controller.CategoriaController;
 import com.alura.jdbc.controller.ProductoController;
+import com.alura.jdbc.modelo.Categoria;
 import com.alura.jdbc.modelo.Producto;
 
 public class ControlDeStockFrame extends JFrame {
@@ -26,7 +26,7 @@ public class ControlDeStockFrame extends JFrame {
 
 	private JLabel labelNombre, labelDescripcion, labelCantidad, labelCategoria;
 	private JTextField textoNombre, textoDescripcion, textoCantidad;
-	private JComboBox<Object> comboCategoria;
+	private JComboBox<Categoria> comboCategoria;
 	private JButton botonGuardar, botonModificar, botonLimpiar, botonEliminar, botonReporte;
 	private JTable tabla;
 	private DefaultTableModel modelo;
@@ -100,11 +100,10 @@ public class ControlDeStockFrame extends JFrame {
 		textoDescripcion = new JTextField();
 		textoCantidad = new JTextField();
 		comboCategoria = new JComboBox<>();
-		comboCategoria.addItem("Elige una Categoría");
-
-		// TODO
+		comboCategoria.addItem(new Categoria(0,"Elije una Categoría"));
+		
 		var categorias = this.categoriaController.listar();
-		// categorias.forEach(categoria -> comboCategoria.addItem(categoria));
+		categorias.forEach(categoria -> comboCategoria.addItem(categoria));
 
 		textoNombre.setBounds(10, 25, 265, 20);
 		textoDescripcion.setBounds(10, 65, 265, 20);
@@ -243,19 +242,20 @@ public class ControlDeStockFrame extends JFrame {
 				textoDescripcion.getText(),
 				cantidadInt);
 
-		var categoria = comboCategoria.getSelectedItem();
+		var categoria = (Categoria) comboCategoria.getSelectedItem();
+		
 
-		productoController.guardar(producto);
+		productoController.guardar(producto, categoria.getId());
 
 		JOptionPane.showMessageDialog(this, "Registrado con éxito!");
 
 		this.limpiarFormulario();
 	}
 
-	private Object Producto(String text, String text2, Integer cantidadInt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	private Object Producto(String text, String text2, Integer cantidadInt) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	private void limpiarFormulario() {
 		this.textoNombre.setText("");
